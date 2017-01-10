@@ -7,9 +7,8 @@
 #include <time.h>       /* time */
 using namespace std;
 
-int numar_bombe, checkx, checky;
+int numar_bombe, verifx, verify;
 const int sizex = 10, sizey = 10;
-
 
 bool lose;
 
@@ -50,14 +49,19 @@ void drawBoad(Grid board[sizex][sizey])
 		cout << y << "|";
 		for (int x = 0; x < sizex; x++)
 		{
-			if (board[x][y].has_bomb && board[x][y].marked)
+			/*if (board[x][y].has_bomb && board[x][y].marked)
 			{
-				cout << "!|";
-			}
+                cout << "!|";
+			}*/
 			if (board[x][y].has_bomb)
 			{
+				if(board[x][y].marked)
+                    {cout << "!|";
+                    }
+                else
 				cout << "b|";
-			}	else if (board[x][y].marked)
+			}
+				else if (board[x][y].marked)
 			{
 				cout << "x|";
 			}
@@ -74,9 +78,9 @@ int main()
 {
     srand(time(NULL));
 	lose = false;
-	numar_bombe = 15;
-	checkx = 0;
-	checky = 0;
+	numar_bombe = 10;
+	verifx = 0;
+	verify = 0;
 	Grid gameboard[sizex][sizey];
 	for (int i = 0; i < numar_bombe; i++)
 	{
@@ -96,17 +100,17 @@ int main()
 	while (lose != true)
 	{
 		cout << "Input x grid to check." << endl;
-		cin >> checkx;
+		cin >> verifx;
 		cout << endl << "Input y grid to check." << endl;
-		cin >> checky;
-		if (gameboard[checkx - 1][checky - 1].has_bomb == true) {
+		cin >> verify;
+		if (gameboard[verifx - 1][verify - 1].has_bomb == true) {
 			cout << "Boom!";
 			lose = true;
 		}
 		else {
 			cout << "Try again." << endl;
 		}
-		gameboard[checkx - 1][checky - 1].marked = true;
+		gameboard[verifx - 1][verify - 1].marked = true;
 
 		cout << endl;
 		drawBoad(gameboard);
