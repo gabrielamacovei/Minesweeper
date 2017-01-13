@@ -2,8 +2,6 @@
 #include <string>
 #include <stdlib.h>
 #include <windows.h>
-
-//#include <stdio.h>      /* printf, NULL */
 #include <time.h>       /* time */
 using namespace std;
 
@@ -36,6 +34,7 @@ void drawBoad(Grid board[sizex][sizey])
 	// 9|_|_|_|_|_|_|_|_|_|_|
     system("CLS");
 	//This draws the top line
+	unsigned int nr=0;
 	cout << " _";
 	for (int i = 0; i < sizex; i++)
 	{
@@ -49,21 +48,139 @@ void drawBoad(Grid board[sizex][sizey])
 		cout << y << "|";
 		for (int x = 0; x < sizex; x++)
 		{
-			/*if (board[x][y].has_bomb && board[x][y].marked)
-			{
-                cout << "!|";
-			}*/
 			if (board[x][y].has_bomb)
 			{
 				if(board[x][y].marked)
                     {cout << "!|";
                     }
                 else
-				cout << "b|";
+				cout << "_|";
 			}
 				else if (board[x][y].marked)
 			{
-				cout << "x|";
+				if(x>0&&x<9&&y>0&&y<9)
+				{nr=0;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                    if(board[x-1][y-1].has_bomb)
+                        nr++;
+                    if(board[x-1][y+1].has_bomb)
+                        nr++;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x+1][y-1].has_bomb)
+                        nr++;
+                    if(board[x+1][y+1].has_bomb)
+                        nr++;
+                    cout<< nr<<"|";}
+                    else if(x==0&&y>0&&y<9)
+                    {
+                        nr=0;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x+1][y-1].has_bomb)
+                        nr++;
+                    if(board[x+1][y+1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(x==9&&y>0&&y<9)
+                    {
+                        nr=0;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                    if(board[x-1][y-1].has_bomb)
+                        nr++;
+                    if(board[x-1][y+1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(y==0&&x>0&&x<9)
+                    {
+                        nr=0;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x-1][y+1].has_bomb)
+                        nr++;
+                    if(board[x+1][y+1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                     else if(y==9&&x>0&&x<9)
+                    {
+                        nr=0;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x-1][y-1].has_bomb)
+                        nr++;
+                    if(board[x+1][y-1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(x==0&&y==0)
+                    {
+                        nr=0;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x+1][y+1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(x==9&&y==0)
+                    {
+                        nr=0;
+                    if(board[x-1][y+1].has_bomb)
+                        nr++;
+                    if(board[x][y+1].has_bomb)
+                        nr++;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(x==0&&y==9)
+                    {
+                        nr=0;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x+1][y].has_bomb)
+                        nr++;
+                    if(board[x+1][y-1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
+                    else if(x==9&&y==9)
+                    {
+                        nr=0;
+                    if(board[x][y-1].has_bomb)
+                        nr++;
+                    if(board[x-1][y].has_bomb)
+                        nr++;
+                    if(board[x-1][y-1].has_bomb)
+                        nr++;
+                        cout<< nr<<"|";
+                    }
 			}
 			else
 			{
@@ -99,22 +216,50 @@ int main()
 	cout << endl;
 	while (lose != true)
 	{
+
 		cout << "Input x grid to check." << endl;
 		cin >> verifx;
+		while (verifx>9||verifx<0)
+{
+            cout<<"Input x grid again!"<<endl;
+            cin>>verifx;
+		}
 		cout << endl << "Input y grid to check." << endl;
 		cin >> verify;
-		if (gameboard[verifx - 1][verify - 1].has_bomb == true) {
+
+		while (verify>9||verify<0)
+        {
+            cout<<"Input y grid again!"<<endl;
+            cin>>verify;
+		}
+		if (gameboard[verifx][verify].has_bomb == true) {
 			cout << "Boom!";
 			lose = true;
 		}
 		else {
-			cout << "Try again." << endl;
+			cout << "Continue!" << endl;
 		}
-		gameboard[verifx - 1][verify - 1].marked = true;
+		gameboard[verifx][verify].marked = true;
 
 		cout << endl;
 		drawBoad(gameboard);
 		cout << endl;
+		int i=0,ok=1;
+		while(i<=9&&ok)
+        {
+            for(int j=0;j<=9;j++)
+                if(!(gameboard[i][j].marked))
+                    if(!(gameboard[i][j].has_bomb))
+                        ok=0;
+            i++;
+        }
+        if(ok)
+        {
+
+            cout<<"Felicitari!";
+            lose=true;
+        }
+
 	}
 
 	return 0;
